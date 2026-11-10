@@ -83,6 +83,7 @@
   each(".jr-media, .pd-cover, .ar-cover, .svc-media, .media-frame, .systems-visual, .consult-photo, .svc-why-media, .contact-map img, .about-team img", "m");
   group(".about-collage-stage", "m");
   group(".pd-gallery", "m", null, 2);
+  group(".pd-sketches", "r", null, 3);
   // grids / lists: children stagger by column
   group(".collection-grid", "m", null, 4);
   group(".project-grid", "m", null, 2);

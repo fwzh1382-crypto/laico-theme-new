@@ -1936,9 +1936,11 @@ html {
 .pd-spec dd { margin: 0; color: var(--ink); font-weight: 500; text-align: end; }
 .pd-card .btn-solid { margin-top: 8px; width: 100%; }
 .pd-about,
+.pd-sketch-sec,
 .pd-gallery-sec,
 .pd-video-sec { padding-top: clamp(44px, 6vw, 88px); }
 .pd-about h2,
+.pd-sketch-sec h2,
 .pd-gallery-sec h2,
 .pd-video-sec h2 { font-size: clamp(24px, 2.4vw, 32px); font-weight: 500; color: var(--ink); line-height: 1.4; margin-bottom: 18px; }
 .pd-text { max-width: 66ch; }
@@ -1948,6 +1950,16 @@ html {
 .pd-shot { display: block; aspect-ratio: 3 / 2; border-radius: var(--radius-lg); overflow: hidden; background: var(--bg-soft); cursor: zoom-in; }
 .pd-shot img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.9s var(--ease); }
 .pd-shot:hover img { transform: scale(1.04); }
+.pd-sketches { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 1.6vw, 20px); }
+.pd-sketches[data-sketch-count="1"] { grid-template-columns: minmax(0, 1fr); max-width: 860px; }
+.pd-sketches[data-sketch-count="2"],
+.pd-sketches[data-sketch-count="4"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.pd-sketch { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; background: #fff; color: var(--ink); cursor: zoom-in; transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease); }
+.pd-sketch:hover { border-color: var(--line-strong); box-shadow: 0 18px 44px rgba(11, 29, 51, 0.1); }
+.pd-sketch-frame { display: block; aspect-ratio: 4 / 3; overflow: hidden; background: #fff; }
+.pd-sketch-frame img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.9s var(--ease); }
+.pd-sketch:hover .pd-sketch-frame img { transform: scale(1.03); }
+.pd-sketch-cap { display: block; padding: 12px 16px 14px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; line-height: 1.7; text-align: center; }
 .pd-video { border-radius: var(--radius-lg); overflow: hidden; background: #000; aspect-ratio: 16 / 9; }
 .pd-video video { display: block; width: 100%; height: 100%; object-fit: cover; }
 .pd-pager {
@@ -1976,7 +1988,7 @@ html {
   background: rgba(11, 29, 51, 0.94);
   padding: 20px;
 }
-.lb img { max-width: min(94vw, 1400px); max-height: 82vh; width: auto; height: auto; border-radius: var(--radius); }
+.lb img { max-width: min(94vw, 1400px); max-height: 82vh; width: auto; height: auto; border-radius: var(--radius); background: #fff; }
 .lb-btn {
   position: absolute;
   width: 48px;
@@ -1995,6 +2007,9 @@ html {
 .lb-prev { inset-inline-start: 16px; top: 50%; transform: translateY(-50%); }
 .lb-next { inset-inline-end: 16px; top: 50%; transform: translateY(-50%); }
 .lb-count { position: absolute; bottom: 18px; color: rgba(255, 255, 255, 0.8); font-size: 13px; font-family: var(--latin); letter-spacing: 0.1em; }
+.lb--single .lb-prev,
+.lb--single .lb-next,
+.lb--single .lb-count { display: none; }
 
 /* ---------- mobile & tablet ---------- */
 @media (max-width: 1180px) {
@@ -2009,6 +2024,9 @@ html {
 @media (max-width: 900px) {
   .scroll-hint { display: none; }
   .contact-card { grid-template-columns: 1fr; }
+  .pd-sketches { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pd-sketches[data-sketch-count="1"] { grid-template-columns: minmax(0, 1fr); }
+  .pd-sketches > .pd-sketch:last-child:nth-child(odd) { grid-column: 1 / -1; }
 }
 @media (max-width: 720px) {
   :root { --header: 68px; --pad: 20px; }
@@ -2039,6 +2057,9 @@ html {
   .ar-cover { aspect-ratio: 4 / 3; }
   .pd-gallery { gap: 10px; }
   .pd-shot { aspect-ratio: 1 / 1; border-radius: 14px; }
+  .pd-sketches { gap: 10px; }
+  .pd-sketch { border-radius: 14px; }
+  .pd-sketch-cap { padding: 9px 10px 10px; font-size: 12.5px; }
   .pd-pager { grid-template-columns: 1fr 1fr; }
   .pd-pager-all { grid-column: 1 / -1; grid-row: 2; }
   .lb-prev,

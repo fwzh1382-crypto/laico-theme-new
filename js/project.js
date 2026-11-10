@@ -1,8 +1,14 @@
 /* LAICO DESIGN — project detail pages: accessible image lightbox */
 (function () {
   "use strict";
-  var items = Array.prototype.slice.call(document.querySelectorAll("[data-gallery-item]"));
-  if (!items.length) return;
+  var all = Array.prototype.slice.call(document.querySelectorAll("[data-gallery-item]"));
+  if (!all.length) return;
+  // every [data-gallery] block (photo gallery, sketches, …) is browsed as its own set
+  var items = all;
+  function setOf(a) {
+    var box = a.closest ? a.closest("[data-gallery]") : null;
+    return box ? Array.prototype.slice.call(box.querySelectorAll("[data-gallery-item]")) : all;
+  }
 
   var overlay = null, index = 0, opener = null;
   function rtl() { return document.documentElement.dir === "rtl"; }
@@ -41,6 +47,7 @@
     overlay.setAttribute("role", "dialog");
     overlay.setAttribute("aria-modal", "true");
     overlay.setAttribute("aria-label", en() ? "Image gallery" : "گالری تصاویر");
+    if (items.length < 2) overlay.className += " lb--single";
     var prevGlyph = rtl() ? "›" : "‹";
     var nextGlyph = rtl() ? "‹" : "›";
     overlay.innerHTML =
@@ -60,7 +67,11 @@
     overlay.querySelector(".lb-close").focus();
   }
 
-  items.forEach(function (a, i) {
-    a.addEventListener("click", function (e) { e.preventDefault(); open(i, a); });
+  all.forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      e.preventDefault();
+      items = setOf(a);
+      open(Math.max(0, items.indexOf(a)), a);
+    });
   });
 })();

@@ -31,8 +31,8 @@
       @php
         $pagination = paginate_links([
           'type' => 'array',
-          'prev_text' => 'قبلی',
-          'next_text' => 'بعدی',
+          'prev_text' => laico_bi('قبلی', 'Previous'),
+          'next_text' => laico_bi('بعدی', 'Next'),
         ]);
       @endphp
       @if (!empty($pagination))

@@ -100,7 +100,7 @@
     <div class="marquee-track">
       @for ($loopIdx = 0; $loopIdx < 4; $loopIdx++)
         @foreach ($mosaicItems as $mq)
-          <span class="mq-item">{{ $mq['title_fa'] }}</span><span class="mq-dot"></span>
+          <span class="mq-item">{!! laico_bi((string) $mq['title_fa'], (string) ($mq['title_en'] ?? '')) !!}</span><span class="mq-dot"></span>
         @endforeach
       @endfor
     </div>
@@ -121,6 +121,8 @@
           <a class="project-card {{ $mosaicClasses[$idx % 4] }}" href="{{ esc_url($item['url']) }}">
             <img src="{{ esc_url($item['image']['url']) }}"
                  alt="{{ esc_attr($item['title_fa']) }}"
+                 data-alt-fa="{{ esc_attr($item['title_fa']) }}"
+                 data-alt-en="{{ esc_attr($item['title_en'] ?? $item['title_fa']) }}"
                  loading="lazy">
             <span class="shade"></span>
             <span class="tag">{!! laico_bi($item['space_fa'], $item['space_en']) !!}</span>

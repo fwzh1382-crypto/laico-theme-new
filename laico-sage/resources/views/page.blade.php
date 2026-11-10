@@ -19,16 +19,19 @@
     'privacy' => 'template-legal',
     'cookies' => 'template-legal',
   ];
+
+  // برگه‌ای که نامک آن در نگاشت بالا باشد با همان قالب اختصاصی رندر می‌شود؛ سایر برگه‌ها با چیدمان عمومی.
+  $autoView = $autoSlugMap[$slug] ?? '';
 @endphp
 
-@if (isset($autoSlugMap[$slug]))
-  @include($autoSlugMap[$slug])
-@else
-  @extends('layouts.app')
+{{-- `@extends` همیشه در انتهای فایل اجرا می‌شود (حتی درون @if)، پس والد به‌صورت پویا انتخاب می‌شود تا صفحه دو بار رندر نشود. --}}
+@extends($autoView !== '' ? $autoView : 'layouts.app')
 
+@if ($autoView === '')
   @section('content')
-    @while(have_posts()) @php(the_post())
+    @while(have_posts())
       @php
+        the_post();
         $pid = get_the_ID();
         $hasThumb = has_post_thumbnail($pid);
       @endphp
@@ -39,7 +42,7 @@
       @else
         <section class="pd-top ar-top">
           <div class="ar-wrap">
-            <h1>{{ get_the_title() }}</h1>
+            <h1>{!! laico_bi((string) get_the_title(), (string) get_post_meta($pid, '_laico_hero_title_en', true)) !!}</h1>
           </div>
         </section>
       @endif

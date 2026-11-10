@@ -28,11 +28,11 @@ final class Hero
                 'width' => 1080,
                 'height' => 900,
                 'kicker_fa' => (string) ThemeOptions::get('home_kicker_fa', 'معماری داخلی • سیستم آشپزخانه لوکس'),
-                'kicker_en' => (string) ThemeOptions::get('home_kicker_en', 'Interior architecture • Luxury kitchen system'),
+                'kicker_en' => self::englishOption('home_kicker_en', 'Interior architecture • Luxury kitchen system'),
                 'title_fa' => (string) ThemeOptions::get('home_title_fa', 'لایکو دیزاین، فراتر از طراحی'),
-                'title_en' => (string) ThemeOptions::get('home_title_en', 'Laico Design, beyond design'),
+                'title_en' => self::englishOption('home_title_en', 'Laico Design, beyond design'),
                 'lede_fa' => (string) ThemeOptions::get('home_lede_fa', 'لایکو دیزاین؛ طراحی و اجرای آشپزخانه، پذیرایی و اتاق، حمام و فضاهای کافه-رستوران با زبان مینیمال و متریال صادق.'),
-                'lede_en' => (string) ThemeOptions::get('home_lede_en', 'Laico Design plans and builds kitchens, living rooms, baths, and café spaces in a minimal language, with honest materials.'),
+                'lede_en' => self::englishOption('home_lede_en', 'Laico Design plans and builds kitchens, living rooms, baths, and café spaces in a minimal language, with honest materials.'),
                 'target' => 'collections',
                 'is_page_variant' => false,
                 'hint' => true,
@@ -108,6 +108,17 @@ final class Hero
                 'hint' => false,
             ],
         ];
+    }
+
+    /**
+     * Read an English text option from Theme Settings. A field that was saved empty falls back
+     * to the built-in English copy, so the English version never shows the Persian text instead.
+     */
+    private static function englishOption(string $key, string $builtin): string
+    {
+        $value = trim((string) ThemeOptions::get($key, $builtin));
+
+        return $value !== '' ? $value : $builtin;
     }
 
     /**

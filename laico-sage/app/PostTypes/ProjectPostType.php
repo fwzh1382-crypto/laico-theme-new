@@ -230,7 +230,7 @@ final class ProjectPostType
 
         add_meta_box(
             'laico_project_media',
-            'گالری تصاویر و ویدیوی پروژه',
+            'گالری تصاویر، اسکیس‌ها و ویدیوی پروژه',
             [$this, 'renderMediaMetaBox'],
             self::POST_TYPE,
             'normal',
@@ -342,6 +342,9 @@ final class ProjectPostType
         $galleryIdsRaw = (string) get_post_meta($post->ID, '_laico_gallery_ids', true);
         $galleryIds = array_values(array_filter(array_map('intval', explode(',', $galleryIdsRaw))));
         $galleryUrls = (string) get_post_meta($post->ID, '_laico_gallery_urls', true);
+        $sketchIdsRaw = (string) get_post_meta($post->ID, '_laico_sketch_ids', true);
+        $sketchIds = array_values(array_filter(array_map('intval', explode(',', $sketchIdsRaw))));
+        $sketchUrls = (string) get_post_meta($post->ID, '_laico_sketch_urls', true);
         $videoUrl = (string) get_post_meta($post->ID, '_laico_video_url', true);
         $videoPoster = (string) get_post_meta($post->ID, '_laico_video_poster', true);
         ?>
@@ -369,6 +372,33 @@ final class ProjectPostType
             <details style="margin-top:8px;">
               <summary style="cursor:pointer;color:#6d7e90;font-size:12px;">آدرس مستقیم تصاویر گالری (هر خط یک URL — اختیاری در صورت عدم استفاده از کتابخانه رسانه)</summary>
               <textarea name="laico_gallery_urls" rows="3" class="widefat" dir="ltr" style="margin-top:6px;" placeholder="https://.../img1.webp"><?php echo esc_textarea($galleryUrls); ?></textarea>
+            </details>
+          </div>
+
+          <div class="laico-meta-field">
+            <label><strong>اسکیس‌های پروژه (طرح دستی، پلان و دیتیل — بخش «اسکیس‌های پروژه» در تک‌صفحه، بین متن معرفی و گالری)</strong></label>
+            <input type="hidden" id="laico_sketch_ids" name="laico_sketch_ids" value="<?php echo esc_attr(implode(',', $sketchIds)); ?>">
+            <div class="laico-gallery-preview" id="laico-sketch-preview">
+              <?php foreach ($sketchIds as $attId) :
+                  $thumb = wp_get_attachment_image_url($attId, 'thumbnail');
+                  if (! $thumb) {
+                      continue;
+                  }
+              ?>
+                <div class="laico-gallery-thumb" data-id="<?php echo esc_attr((string) $attId); ?>">
+                  <img src="<?php echo esc_url($thumb); ?>" alt="">
+                  <button type="button" class="laico-remove-thumb" aria-label="حذف">×</button>
+                </div>
+              <?php endforeach; ?>
+            </div>
+            <p style="margin-top:10px;">
+              <button type="button" class="button button-primary" id="laico-pick-sketches">افزودن اسکیس از کتابخانه رسانه</button>
+              <button type="button" class="button" id="laico-clear-sketches">پاک‌سازی اسکیس‌ها</button>
+            </p>
+            <p class="description">هر اسکیس کامل و بدون برش روی زمینهٔ سفید نمایش داده می‌شود و با کلیک، بزرگ (لایت‌باکس) باز می‌شود. اگر اسکیسی انتخاب نشود، این بخش در سایت دیده نمی‌شود. متن فیلد «زیرنویس» (Caption) هر تصویر در کتابخانهٔ رسانه، زیر همان اسکیس نوشته می‌شود؛ برای نسخهٔ انگلیسی، زیرنویس را به‌صورت «فارسی | English» بنویسید — مثال: <code>پلان مفهومی | Concept plan</code></p>
+            <details style="margin-top:8px;">
+              <summary style="cursor:pointer;color:#6d7e90;font-size:12px;">آدرس مستقیم اسکیس‌ها (هر خط یک URL — اختیاری در صورت عدم استفاده از کتابخانه رسانه)</summary>
+              <textarea name="laico_sketch_urls" rows="3" class="widefat" dir="ltr" style="margin-top:6px;" placeholder="https://.../sketch-1.webp"><?php echo esc_textarea($sketchUrls); ?></textarea>
             </details>
           </div>
 
@@ -477,6 +507,18 @@ final class ProjectPostType
         $rawUrls = isset($_POST['laico_gallery_urls']) ? (string) wp_unslash($_POST['laico_gallery_urls']) : '';
         $cleanUrls = array_values(array_filter(array_map(static fn (string $u): string => esc_url_raw(trim($u)), preg_split('/\r\n|\r|\n/', $rawUrls) ?: [])));
         update_post_meta($postId, '_laico_gallery_urls', implode("\n", $cleanUrls));
+
+        // Sketch IDs & fallback URLs (only when the sketch fields were part of the submitted form)
+        if (array_key_exists('laico_sketch_ids', $_POST)) {
+            $rawSketchIds = sanitize_text_field(wp_unslash((string) $_POST['laico_sketch_ids']));
+            $cleanSketchIds = array_values(array_unique(array_filter(array_map('intval', explode(',', $rawSketchIds)), static fn (int $id): bool => $id > 0)));
+            update_post_meta($postId, '_laico_sketch_ids', implode(',', $cleanSketchIds));
+        }
+        if (array_key_exists('laico_sketch_urls', $_POST)) {
+            $rawSketchUrls = (string) wp_unslash($_POST['laico_sketch_urls']);
+            $cleanSketchUrls = array_values(array_filter(array_map(static fn (string $u): string => esc_url_raw(trim($u)), preg_split('/\r\n|\r|\n/', $rawSketchUrls) ?: [])));
+            update_post_meta($postId, '_laico_sketch_urls', implode("\n", $cleanSketchUrls));
+        }
 
         $videoUrl = isset($_POST['laico_video_url']) ? esc_url_raw(trim((string) wp_unslash($_POST['laico_video_url']))) : '';
         $videoPoster = isset($_POST['laico_video_poster']) ? esc_url_raw(trim((string) wp_unslash($_POST['laico_video_poster']))) : '';

@@ -147,7 +147,13 @@ final class App extends Composer
         if (is_singular()) {
             $postId = (int) get_queried_object_id();
             $faTitle = get_the_title($postId);
-            $enTitle = trim((string) get_post_meta($postId, '_laico_title_en', true)) ?: $faTitle;
+            $enTitle = trim((string) get_post_meta($postId, '_laico_title_en', true));
+            if ($enTitle === '' && is_singular('page')) {
+                $enTitle = self::resolveEnglishPageTitle($postId);
+            }
+            if ($enTitle === '') {
+                $enTitle = $faTitle;
+            }
             $suffixFa = is_singular('post') ? ' — مجله لایکو' : ' — لایکو دیزاین';
             $suffixEn = is_singular('post') ? ' — Laico Journal' : ' — Laico Design';
             return [
@@ -158,5 +164,37 @@ final class App extends Composer
 
         $docTitle = wp_get_document_title();
         return ['fa' => $docTitle, 'en' => $docTitle];
+    }
+
+    /**
+     * English tab title of a Page: the English H1 typed in the page's Hero meta box, otherwise the
+     * built-in English name of the standard Laico pages (matched by template or slug).
+     * Returns an empty string when neither exists (the caller then keeps the Persian title).
+     */
+    private static function resolveEnglishPageTitle(int $pageId): string
+    {
+        $custom = trim((string) get_post_meta($pageId, '_laico_hero_title_en', true));
+        if ($custom !== '') {
+            return $custom;
+        }
+
+        $names = [
+            'services' => 'Services',
+            'about' => 'About',
+            'contact' => 'Contact',
+            'showroom' => 'Amol showroom',
+            'kitchen' => 'Kitchen',
+            'living' => 'Living',
+            'bath' => 'Bath',
+            'cafe' => 'Café & restaurant',
+            'studio' => 'Studio',
+            'systems' => 'Systems & materials',
+            'process' => 'Process',
+            'materials' => 'Materials',
+            'privacy' => 'Privacy',
+            'cookies' => 'Cookies',
+        ];
+
+        return $names[self::detectCurrentSection()] ?? '';
     }
 }

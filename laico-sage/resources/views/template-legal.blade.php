@@ -30,7 +30,7 @@
         @if ($isCookies)
           {!! laico_bi('سیاست استفاده از کوکی‌ها', 'Cookie policy') !!}
         @elseif ($pageId > 0 && $slug !== 'privacy')
-          {{ get_the_title($pageId) }}
+          {!! laico_bi((string) get_the_title($pageId), (string) get_post_meta($pageId, '_laico_hero_title_en', true)) !!}
         @else
           {!! laico_bi('حریم خصوصی کاربران', 'Privacy policy') !!}
         @endif

@@ -218,6 +218,44 @@ final class Projects extends Composer
             }
         }
 
+        // Resolve project sketches (hand drawings, plans, details) the same way as the gallery;
+        // the Media Library caption becomes the label under each sketch ("فارسی | English" for both languages).
+        $sketches = [];
+        $sketchIdsCsv = (string) get_post_meta($id, '_laico_sketch_ids', true);
+        $sketchIds = array_values(array_filter(array_map('intval', explode(',', $sketchIdsCsv))));
+        foreach ($sketchIds as $sketchId) {
+            $orig = Hero::resolveOriginalAttachment($sketchId);
+            if ($orig !== null && $orig['url'] !== '') {
+                [$captionFa, $captionEn] = self::splitBilingualCaption((string) wp_get_attachment_caption($sketchId));
+                $sketches[] = [
+                    'url' => $orig['url'],
+                    'full_url' => $orig['url'],
+                    'width' => (int) ($orig['width'] ?: 1200),
+                    'height' => (int) ($orig['height'] ?: 900),
+                    'alt_fa' => $orig['alt'] !== '' ? $orig['alt'] : $card['title_fa'],
+                    'alt_en' => $card['title_en'],
+                    'caption_fa' => $captionFa,
+                    'caption_en' => $captionEn,
+                ];
+            }
+        }
+
+        if (empty($sketches)) {
+            $rawSketchUrls = (string) get_post_meta($id, '_laico_sketch_urls', true);
+            foreach (array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $rawSketchUrls) ?: [])) as $u) {
+                $sketches[] = [
+                    'url' => $u,
+                    'full_url' => $u,
+                    'width' => 1200,
+                    'height' => 900,
+                    'alt_fa' => $card['title_fa'],
+                    'alt_en' => $card['title_en'],
+                    'caption_fa' => '',
+                    'caption_en' => '',
+                ];
+            }
+        }
+
         $videoUrl = trim((string) get_post_meta($id, '_laico_video_url', true));
         $videoPoster = trim((string) get_post_meta($id, '_laico_video_poster', true)) ?: $card['image']['url'];
 
@@ -229,9 +267,34 @@ final class Projects extends Composer
             'content_fa' => $contentFa,
             'content_en' => $contentEn,
             'gallery' => $gallery,
+            'sketches' => $sketches,
             'video_url' => $videoUrl,
             'video_poster' => $videoPoster,
         ]);
+    }
+
+    /**
+     * Split an optional "فارسی | English" caption into its two languages.
+     * Without a separator the same text is used for both.
+     *
+     * @return array{0: string, 1: string}
+     */
+    public static function splitBilingualCaption(string $caption): array
+    {
+        $caption = trim(wp_strip_all_tags($caption));
+        if ($caption === '') {
+            return ['', ''];
+        }
+
+        $parts = array_map('trim', explode('|', $caption, 2));
+        $fa = $parts[0];
+        $en = $parts[1] ?? '';
+
+        if ($fa === '') {
+            $fa = $en;
+        }
+
+        return [$fa, $en !== '' ? $en : $fa];
     }
 
     /**

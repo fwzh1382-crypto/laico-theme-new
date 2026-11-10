@@ -5,6 +5,7 @@
  * - Single Media Library picker buttons (`.laico-pick-media` for Logo, Favicon, OG Image, Video, Poster)
  * - About Page Media Cards (`.laico-pick-media-card` & `.laico-reset-media-card` with live preview + attachment ID)
  * - Multi-image Project Gallery picker (`#laico-pick-gallery`, `#laico-clear-gallery`, `.laico-remove-thumb`)
+ * - Multi-image Project Sketch picker (`#laico-pick-sketches`, `#laico-clear-sketches`)
  * - Live English fields toggle (`#laico_enable_english`) & About Page template detection
  */
 
@@ -345,6 +346,95 @@
           });
 
           syncGalleryIdsFromDom();
+        });
+
+        frame.open();
+      });
+    }
+
+    // 6. Multi-Image Project Sketch Picker (`#laico-pick-sketches`) — same thumbnails as the gallery, own field
+    var sketchBtn = document.getElementById('laico-pick-sketches');
+    var sketchClearBtn = document.getElementById('laico-clear-sketches');
+    var sketchIdsInput = document.getElementById('laico_sketch_ids');
+    var sketchBox = document.getElementById('laico-sketch-preview');
+
+    function syncSketchIdsFromDom() {
+      if (!sketchIdsInput || !sketchBox) return;
+      var ids = [];
+      sketchBox.querySelectorAll('.laico-gallery-thumb[data-id]').forEach(function (el) {
+        var id = parseInt(el.getAttribute('data-id'), 10);
+        if (id > 0 && ids.indexOf(id) === -1) {
+          ids.push(id);
+        }
+      });
+      sketchIdsInput.value = ids.join(',');
+    }
+
+    if (sketchBox) {
+      sketchBox.addEventListener('click', function (e) {
+        var rm = e.target.closest('.laico-remove-thumb');
+        if (!rm) return;
+        e.preventDefault();
+        var item = rm.closest('.laico-gallery-thumb');
+        if (item) {
+          item.remove();
+          syncSketchIdsFromDom();
+        }
+      });
+    }
+
+    if (sketchClearBtn && sketchBox && sketchIdsInput) {
+      sketchClearBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        sketchBox.innerHTML = '';
+        sketchIdsInput.value = '';
+      });
+    }
+
+    if (sketchBtn && sketchBox && sketchIdsInput) {
+      sketchBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (!window.wp || !window.wp.media) return;
+
+        var frame = window.wp.media({
+          title: 'انتخاب اسکیس‌های پروژه',
+          button: { text: 'افزودن به اسکیس‌های پروژه' },
+          library: { type: 'image' },
+          multiple: true,
+        });
+
+        frame.on('select', function () {
+          var selection = frame.state().get('selection');
+          selection.each(function (attachment) {
+            var data = attachment.toJSON();
+            if (!data || !data.id) return;
+            if (sketchBox.querySelector('.laico-gallery-thumb[data-id="' + data.id + '"]')) {
+              return;
+            }
+            var thumbUrl =
+              (data.sizes && data.sizes.thumbnail && data.sizes.thumbnail.url) ||
+              data.url;
+
+            var div = document.createElement('div');
+            div.className = 'laico-gallery-thumb';
+            div.setAttribute('data-id', String(data.id));
+
+            var img = document.createElement('img');
+            img.src = thumbUrl;
+            img.alt = '';
+
+            var rmBtn = document.createElement('button');
+            rmBtn.type = 'button';
+            rmBtn.className = 'laico-remove-thumb';
+            rmBtn.setAttribute('aria-label', 'حذف');
+            rmBtn.textContent = '×';
+
+            div.appendChild(img);
+            div.appendChild(rmBtn);
+            sketchBox.appendChild(div);
+          });
+
+          syncSketchIdsFromDom();
         });
 
         frame.open();

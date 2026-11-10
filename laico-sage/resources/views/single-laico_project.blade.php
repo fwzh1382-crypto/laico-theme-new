@@ -87,6 +87,34 @@
     </section>
   @endif
 
+  @if(!empty($project['sketches']))
+    <section class="pd-wrap pd-sketch-sec" aria-labelledby="sk-title">
+      <h2 id="sk-title">{!! laico_bi('اسکیس‌های پروژه', 'Project sketches') !!}</h2>
+      <div class="pd-sketches" data-gallery data-sketch-count="{{ count($project['sketches']) }}">
+        @foreach ($project['sketches'] as $sIdx => $sketch)
+          @php
+            $sketchAltFa = $sketch['alt_fa'] . ' — اسکیس ' . \App\Support\Jalali::toPersianDigits($sIdx + 1);
+          @endphp
+          <a class="pd-sketch" href="{!! esc_url($sketch['full_url']) !!}" data-gallery-item aria-label="{{ $project['title_fa'] }}">
+            <span class="pd-sketch-frame">
+              <img src="{!! esc_url($sketch['url']) !!}"
+                   alt="{{ $sketchAltFa }}"
+                   data-alt-fa="{{ $sketchAltFa }}"
+                   data-alt-en="{{ $sketch['alt_en'] . ' — sketch ' . ($sIdx + 1) }}"
+                   width="{{ (int) $sketch['width'] }}"
+                   height="{{ (int) $sketch['height'] }}"
+                   loading="lazy"
+                   decoding="async">
+            </span>
+            @if(!empty($sketch['caption_fa']))
+              <span class="pd-sketch-cap">{!! laico_bi((string) $sketch['caption_fa'], (string) ($sketch['caption_en'] ?? '')) !!}</span>
+            @endif
+          </a>
+        @endforeach
+      </div>
+    </section>
+  @endif
+
   @if(!empty($project['gallery']))
     <section class="pd-wrap pd-gallery-sec" aria-labelledby="gal-title">
       <h2 id="gal-title">{!! laico_bi('گالری', 'Gallery') !!}</h2>
