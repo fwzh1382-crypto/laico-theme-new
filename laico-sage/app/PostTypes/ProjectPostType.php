@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\PostTypes;
 
+use App\Services\BundledSketches;
 use App\Services\ThemeOptions;
 use App\Support\Jalali;
 
@@ -380,12 +381,12 @@ final class ProjectPostType
             <input type="hidden" id="laico_sketch_ids" name="laico_sketch_ids" value="<?php echo esc_attr(implode(',', $sketchIds)); ?>">
             <div class="laico-gallery-preview" id="laico-sketch-preview">
               <?php foreach ($sketchIds as $attId) :
-                  $thumb = wp_get_attachment_image_url($attId, 'thumbnail');
-                  if (! $thumb) {
+                  $thumb = BundledSketches::previewUrl($attId);
+                  if ($thumb === '') {
                       continue;
                   }
               ?>
-                <div class="laico-gallery-thumb" data-id="<?php echo esc_attr((string) $attId); ?>">
+                <div class="laico-gallery-thumb" data-id="<?php echo esc_attr((string) $attId); ?>" title="<?php echo esc_attr(get_the_title($attId)); ?>">
                   <img src="<?php echo esc_url($thumb); ?>" alt="">
                   <button type="button" class="laico-remove-thumb" aria-label="حذف">×</button>
                 </div>
@@ -395,7 +396,32 @@ final class ProjectPostType
               <button type="button" class="button button-primary" id="laico-pick-sketches">افزودن اسکیس از کتابخانه رسانه</button>
               <button type="button" class="button" id="laico-clear-sketches">پاک‌سازی اسکیس‌ها</button>
             </p>
-            <p class="description">هر اسکیس کامل و بدون برش روی زمینهٔ سفید نمایش داده می‌شود و با کلیک، بزرگ (لایت‌باکس) باز می‌شود. اگر اسکیسی انتخاب نشود، این بخش در سایت دیده نمی‌شود. متن فیلد «زیرنویس» (Caption) هر تصویر در کتابخانهٔ رسانه، زیر همان اسکیس نوشته می‌شود؛ برای نسخهٔ انگلیسی، زیرنویس را به‌صورت «فارسی | English» بنویسید — مثال: <code>پلان مفهومی | Concept plan</code></p>
+            <p class="description">هر اسکیس کامل و بدون برش روی زمینهٔ سفید نمایش داده می‌شود و با کلیک، بزرگ (لایت‌باکس) باز می‌شود. اگر اسکیسی انتخاب نشود، این بخش در سایت دیده نمی‌شود. در مجموعه‌های پرتعداد ابتدا دو ردیف دیده می‌شود و بقیه با دکمهٔ «نمایش همهٔ اسکیس‌ها» باز می‌شوند. متن فیلد «زیرنویس» (Caption) هر تصویر در کتابخانهٔ رسانه، زیر همان اسکیس نوشته می‌شود؛ برای نسخهٔ انگلیسی، زیرنویس را به‌صورت «فارسی | English» بنویسید — مثال: <code>پلان مفهومی | Concept plan</code></p>
+            <?php
+            $sketchSets = current_user_can('upload_files') ? BundledSketches::sets() : [];
+            if (! empty($sketchSets)) :
+            ?>
+              <div class="laico-sketch-set">
+                <label for="laico_sketch_set"><strong>اسکیس‌های آمادهٔ همراه قالب</strong></label>
+                <div class="laico-sketch-set-row">
+                  <select id="laico_sketch_set">
+                    <?php if (count($sketchSets) > 1) : ?>
+                      <option value="">— انتخاب مجموعه —</option>
+                    <?php endif; ?>
+                    <?php foreach ($sketchSets as $sketchSet) : ?>
+                      <option value="<?php echo esc_attr($sketchSet['slug']); ?>"><?php echo esc_html($sketchSet['title_fa'] . ' (' . Jalali::toPersianDigits(count($sketchSet['items'])) . ' برگ)'); ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                  <button type="button" class="button" id="laico-add-sketch-set"
+                          data-ajax-url="<?php echo esc_url(admin_url('admin-ajax.php')); ?>"
+                          data-action="<?php echo esc_attr(BundledSketches::AJAX_ACTION); ?>"
+                          data-nonce="<?php echo esc_attr(wp_create_nonce(BundledSketches::AJAX_ACTION)); ?>"
+                          data-post="<?php echo esc_attr((string) $post->ID); ?>">افزودن این مجموعه به اسکیس‌های پروژه</button>
+                  <span class="laico-sketch-set-status" id="laico-sketch-set-status" role="status" aria-live="polite"></span>
+                </div>
+                <p class="description">برگ‌های مجموعه یک‌بار در کتابخانهٔ رسانه کپی و به فهرست بالا اضافه می‌شوند؛ هر برگ را می‌توانید با × بردارید. برای ثبت روی سایت، پروژه را «به‌روزرسانی / انتشار» کنید.</p>
+              </div>
+            <?php endif; ?>
             <details style="margin-top:8px;">
               <summary style="cursor:pointer;color:#6d7e90;font-size:12px;">آدرس مستقیم اسکیس‌ها (هر خط یک URL — اختیاری در صورت عدم استفاده از کتابخانه رسانه)</summary>
               <textarea name="laico_sketch_urls" rows="3" class="widefat" dir="ltr" style="margin-top:6px;" placeholder="https://.../sketch-1.webp"><?php echo esc_textarea($sketchUrls); ?></textarea>

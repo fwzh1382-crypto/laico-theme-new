@@ -1,0 +1,327 @@
+{
+  "slug": "cafe",
+  "title_fa": "کافه — نقشه‌های سالن، کانتر و آشپزخانه",
+  "title_en": "Café — hall, counter and kitchen drawings",
+  "items": [
+    {
+      "file": "cafe-01-furniture-plan.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-01-furniture-plan-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "پلان مبلمان",
+      "en": "Furniture plan"
+    },
+    {
+      "file": "cafe-02-dimension-plan.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-02-dimension-plan-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "پلان اندازه‌گذاری و شعاع‌ها",
+      "en": "Dimensioned plan and radii"
+    },
+    {
+      "file": "cafe-03-bench-360.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-03-bench-360-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "نیمکت ۳۶۰",
+      "en": "360° bench"
+    },
+    {
+      "file": "cafe-04-l-bench-details.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-04-l-bench-details-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "نیمکت ال — جانمایی و جزئیات",
+      "en": "L-bench — location and details"
+    },
+    {
+      "file": "cafe-05-l-bench-elevations.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-05-l-bench-elevations-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "نیمکت ال — نماها",
+      "en": "L-bench — elevations"
+    },
+    {
+      "file": "cafe-06-l-bench-sections.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-06-l-bench-sections-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "نیمکت ال — برش‌ها",
+      "en": "L-bench — sections"
+    },
+    {
+      "file": "cafe-07-l-bench-curved-start.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-07-l-bench-curved-start-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "انحنای ابتدای نیمکت ال",
+      "en": "L-bench — curved start"
+    },
+    {
+      "file": "cafe-08-table-95.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-08-table-95-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "میز ارتفاع ۹۵",
+      "en": "Table, 95 cm high"
+    },
+    {
+      "file": "cafe-09-mirror.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-09-mirror-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "آینه",
+      "en": "Mirror"
+    },
+    {
+      "file": "cafe-10-bench-table-joint.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-10-bench-table-joint-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "اتصال پشتی نیمکت ال به پایهٔ میز",
+      "en": "L-bench backrest to table base"
+    },
+    {
+      "file": "cafe-11-camera-cable-access.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-11-camera-cable-access-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "سیم دوربین",
+      "en": "Camera cable access"
+    },
+    {
+      "file": "cafe-12-glass-wall-dimensions.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-12-glass-wall-dimensions-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "دیوار شیشه‌ای — اندازه‌گذاری",
+      "en": "Glass wall — dimensions"
+    },
+    {
+      "file": "cafe-13-glass-wall.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-13-glass-wall-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "دیوار شیشه‌ای",
+      "en": "Glass wall"
+    },
+    {
+      "file": "cafe-14-cashier-back-decor.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-14-cashier-back-decor-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "دکور پشت صندوق",
+      "en": "Decor behind the cashier"
+    },
+    {
+      "file": "cafe-15-kitchen-decor-shelf.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-15-kitchen-decor-shelf-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "قفسهٔ دکور آشپزخانه",
+      "en": "Kitchen decor shelf"
+    },
+    {
+      "file": "cafe-16-ceiling-plan.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-16-ceiling-plan-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "سقف — جدید و موجود",
+      "en": "Ceiling — new and existing"
+    },
+    {
+      "file": "cafe-17-ceiling-details.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-17-ceiling-details-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "سقف — جزئیات",
+      "en": "Ceiling — details"
+    },
+    {
+      "file": "cafe-18-ceiling-dimensions.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-18-ceiling-dimensions-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "سقف — اندازه‌گذاری و شعاع‌ها",
+      "en": "Ceiling — dimensions and radii"
+    },
+    {
+      "file": "cafe-19-ceiling-section.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-19-ceiling-section-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "سقف — نما و برش",
+      "en": "Ceiling — elevation and section"
+    },
+    {
+      "file": "cafe-20-ceiling-lighting.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-20-ceiling-lighting-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "نور سقف",
+      "en": "Ceiling lighting"
+    },
+    {
+      "file": "cafe-21-counter-frame-dimensions.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-21-counter-frame-dimensions-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "شاسی کانتر — اندازه‌گذاری",
+      "en": "Counter frame — dimensions"
+    },
+    {
+      "file": "cafe-22-counter-frame-3d.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-22-counter-frame-3d-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "شاسی کانتر — نمای سه‌بعدی",
+      "en": "Counter frame — 3D view"
+    },
+    {
+      "file": "cafe-23-counter-cladding-top.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-23-counter-cladding-top-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "پوشش MDF شاسی و صفحهٔ کانتر",
+      "en": "MDF cladding and counter top"
+    },
+    {
+      "file": "cafe-24-counter-showcase.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-24-counter-showcase-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "کانتر — شوکیس",
+      "en": "Counter — showcase"
+    },
+    {
+      "file": "cafe-25-kitchen-appliances.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-25-kitchen-appliances-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "آشپزخانه — شوکیس و تجهیزات",
+      "en": "Kitchen — showcase and appliances"
+    },
+    {
+      "file": "cafe-26-kitchen-drawers-sink.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-26-kitchen-drawers-sink-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "آشپزخانه — کشو، سینک و یخ‌ساز",
+      "en": "Kitchen — drawers, sink and ice maker"
+    },
+    {
+      "file": "cafe-27-counter-top-mdf.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-27-counter-top-mdf-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "صفحهٔ کانتر — MDF دوبل",
+      "en": "Counter top — double MDF"
+    },
+    {
+      "file": "cafe-28-espresso-position.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-28-espresso-position-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "جای دستگاه اسپرسو",
+      "en": "Espresso machine position"
+    },
+    {
+      "file": "cafe-29-showcase-edge.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-29-showcase-edge-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "لبهٔ شوکیس",
+      "en": "Showcase edge"
+    },
+    {
+      "file": "cafe-30-cashier-desk-plan.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-30-cashier-desk-plan-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "صندوق — پلان و شعاع لبه‌ها",
+      "en": "Cashier desk — plan and edge radii"
+    },
+    {
+      "file": "cafe-31-cashier-desk-views.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-31-cashier-desk-views-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "صندوق — نمای جلو و پشت",
+      "en": "Cashier desk — front and back views"
+    },
+    {
+      "file": "cafe-32-cashier-desk-details.webp",
+      "width": 1684,
+      "height": 2382,
+      "thumb": "cafe-32-cashier-desk-details-600x849.webp",
+      "thumb_width": 600,
+      "thumb_height": 849,
+      "fa": "صندوق — جزئیات",
+      "en": "Cashier desk — details"
+    }
+  ]
+}

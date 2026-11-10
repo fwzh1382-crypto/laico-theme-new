@@ -218,16 +218,26 @@ final class Projects extends Composer
             }
         }
 
-        // Resolve project sketches (hand drawings, plans, details) the same way as the gallery;
+        // Resolve project sketches (hand drawings, plans, details): the lightbox opens the untouched original,
         // the Media Library caption becomes the label under each sketch ("فارسی | English" for both languages).
+        // A project without sketches gets an empty list and the section is not rendered at all.
         $sketches = [];
+        $sketchSized = 0;
+        $sketchPortrait = 0;
         $sketchIdsCsv = (string) get_post_meta($id, '_laico_sketch_ids', true);
-        $sketchIds = array_values(array_filter(array_map('intval', explode(',', $sketchIdsCsv))));
+        $sketchIds = array_values(array_unique(array_filter(array_map('intval', explode(',', $sketchIdsCsv)))));
         foreach ($sketchIds as $sketchId) {
             $orig = Hero::resolveOriginalAttachment($sketchId);
             if ($orig !== null && $orig['url'] !== '') {
                 [$captionFa, $captionEn] = self::splitBilingualCaption((string) wp_get_attachment_caption($sketchId));
+                if ($orig['width'] > 0 && $orig['height'] > 0) {
+                    $sketchSized++;
+                    if ($orig['height'] >= $orig['width'] * 1.15) {
+                        $sketchPortrait++;
+                    }
+                }
                 $sketches[] = [
+                    'id' => $sketchId,
                     'url' => $orig['url'],
                     'full_url' => $orig['url'],
                     'width' => (int) ($orig['width'] ?: 1200),
@@ -244,6 +254,7 @@ final class Projects extends Composer
             $rawSketchUrls = (string) get_post_meta($id, '_laico_sketch_urls', true);
             foreach (array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $rawSketchUrls) ?: [])) as $u) {
                 $sketches[] = [
+                    'id' => 0,
                     'url' => $u,
                     'full_url' => $u,
                     'width' => 1200,
@@ -253,6 +264,21 @@ final class Projects extends Composer
                     'caption_fa' => '',
                     'caption_en' => '',
                 ];
+            }
+        }
+
+        // Upright sheets (A-series drawings) use the four-column "portrait" grid; a long set starts with two rows
+        // and a "show all" button. In the grid a lighter sub-size is enough — never smaller than the cell needs.
+        $sketchCount = count($sketches);
+        $sketchLayout = ($sketchSized > 0 && $sketchPortrait * 2 > $sketchSized) ? 'portrait' : 'landscape';
+        $sketchCollapsible = $sketchCount > ($sketchLayout === 'portrait' ? 8 : 6);
+        $sketchThumbMin = self::sketchThumbMinWidth($sketchLayout, $sketchCount);
+        foreach ($sketches as $sIdx => $sketch) {
+            $thumb = $sketch['id'] > 0 ? self::attachmentSubSize((int) $sketch['id'], $sketchThumbMin) : null;
+            if ($thumb !== null) {
+                $sketches[$sIdx]['url'] = $thumb['url'];
+                $sketches[$sIdx]['width'] = $thumb['width'];
+                $sketches[$sIdx]['height'] = $thumb['height'];
             }
         }
 
@@ -268,9 +294,78 @@ final class Projects extends Composer
             'content_en' => $contentEn,
             'gallery' => $gallery,
             'sketches' => $sketches,
+            'sketch_layout' => $sketchLayout,
+            'sketch_collapsible' => $sketchCollapsible,
             'video_url' => $videoUrl,
             'video_poster' => $videoPoster,
         ]);
+    }
+
+    /**
+     * Narrowest image (in pixels) that still looks crisp in one cell of the sketch grid: 1.5 × the widest cell,
+     * i.e. sharper than needed on ordinary screens and still clean on high-density ones.
+     * Mirrors the column counts of `.pd-sketches` / `.pd-sketches--portrait` in the stylesheet.
+     */
+    public static function sketchThumbMinWidth(string $layout, int $count): int
+    {
+        if ($layout === 'portrait') {
+            $cellWidth = $count >= 4 ? 300 : ($count === 3 ? 400 : ($count === 2 ? 420 : 520));
+        } else {
+            $cellWidth = $count === 1 ? 860 : (($count === 2 || $count === 4) ? 610 : 400);
+        }
+
+        return (int) round($cellWidth * 1.5);
+    }
+
+    /**
+     * Smallest uncropped sub-size of an attachment that is at least `$minWidth` pixels wide
+     * (WordPress sub-sizes such as `medium_large`, or the ready-made thumbnail of a bundled sketch).
+     * Returns null when the original itself has to be used.
+     *
+     * @return array{url: string, width: int, height: int}|null
+     */
+    public static function attachmentSubSize(int $attachmentId, int $minWidth): ?array
+    {
+        $meta = wp_get_attachment_metadata($attachmentId);
+        if (! is_array($meta) || empty($meta['sizes']) || ! is_array($meta['sizes'])) {
+            return null;
+        }
+
+        $fullWidth = (int) ($meta['width'] ?? 0);
+        $fullHeight = (int) ($meta['height'] ?? 0);
+        $fullUrl = (string) (wp_get_attachment_url($attachmentId) ?: '');
+        $slash = strrpos($fullUrl, '/');
+        if ($fullWidth <= 0 || $fullHeight <= 0 || $slash === false) {
+            return null;
+        }
+
+        $ratio = $fullWidth / $fullHeight;
+        $best = null;
+        foreach ($meta['sizes'] as $size) {
+            if (! is_array($size)) {
+                continue;
+            }
+
+            $width = (int) ($size['width'] ?? 0);
+            $height = (int) ($size['height'] ?? 0);
+            $file = (string) ($size['file'] ?? '');
+            if ($file === '' || $height <= 0 || $width < $minWidth || $width >= $fullWidth) {
+                continue;
+            }
+            // Cropped sizes (square thumbnails, …) would cut the drawing.
+            if (abs($width / $height - $ratio) > $ratio * 0.02) {
+                continue;
+            }
+            if ($best === null || $width < $best['width']) {
+                $best = [
+                    'url' => substr($fullUrl, 0, $slash + 1) . $file,
+                    'width' => $width,
+                    'height' => $height,
+                ];
+            }
+        }
+
+        return $best;
     }
 
     /**

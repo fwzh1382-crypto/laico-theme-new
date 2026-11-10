@@ -162,6 +162,7 @@ final class DemoImporterService
                 'cover' => 'images/cafe-amol.webp',
                 'gallery' => ['images/cafe-amol.webp', 'images/col-cafe.webp', 'images/proj-acajou.webp', 'images/detail.webp'],
                 'video' => $videoCom,
+                'sketch_set' => 'cafe',
             ],
             [
                 'slug' => 'gym', 'cat' => 'commercial', 'space' => 'sports', 'city' => 'amol',
@@ -436,6 +437,11 @@ final class DemoImporterService
             } else {
                 $urls = array_map(static fn (string $rel): string => ViteAssets::assetUrl($rel), $p['gallery']);
                 update_post_meta($postId, '_laico_gallery_urls', implode("\n", $urls));
+            }
+
+            // Only projects that really have drawings get a sketch section (ready-made set bundled with the theme).
+            if (! empty($p['sketch_set'])) {
+                BundledSketches::attachToProject((int) $postId, (string) $p['sketch_set']);
             }
 
             $created++;

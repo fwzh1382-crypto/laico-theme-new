@@ -12,7 +12,7 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-define('LAICO_THEME_VERSION', '1.5.4');
+define('LAICO_THEME_VERSION', '1.5.5');
 define('LAICO_THEME_DIR', get_template_directory());
 define('LAICO_THEME_URI', get_template_directory_uri());
 

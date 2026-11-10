@@ -28,6 +28,8 @@ final class ThemeKernel
         }
         self::$booted = true;
 
+        ThemeOptions::ensureBilingualDefault();
+
         (new ManagerRoleService())->register();
         (new SecurityIntegrationService())->register();
         (new IppanelSmsService())->register();
@@ -36,6 +38,7 @@ final class ThemeKernel
         (new OptimizationService())->register();
         (new SeoService())->register();
         (new FormSubmissionsService())->register();
+        (new BundledSketches())->register();
 
         if (is_admin()) {
             (new ThemeSettingsPage())->register();

@@ -6,6 +6,7 @@
  * - About Page Media Cards (`.laico-pick-media-card` & `.laico-reset-media-card` with live preview + attachment ID)
  * - Multi-image Project Gallery picker (`#laico-pick-gallery`, `#laico-clear-gallery`, `.laico-remove-thumb`)
  * - Multi-image Project Sketch picker (`#laico-pick-sketches`, `#laico-clear-sketches`)
+ * - Ready-made sketch sets bundled with the theme (`#laico-add-sketch-set`)
  * - Live English fields toggle (`#laico_enable_english`) & About Page template detection
  */
 
@@ -370,6 +371,37 @@
       sketchIdsInput.value = ids.join(',');
     }
 
+    // Adds one sketch thumbnail to the list; returns false when that attachment is already listed.
+    function appendSketchThumb(id, thumbUrl, title) {
+      id = parseInt(id, 10);
+      if (!sketchBox || !(id > 0)) return false;
+      if (sketchBox.querySelector('.laico-gallery-thumb[data-id="' + id + '"]')) {
+        return false;
+      }
+
+      var div = document.createElement('div');
+      div.className = 'laico-gallery-thumb';
+      div.setAttribute('data-id', String(id));
+      if (title) {
+        div.title = String(title);
+      }
+
+      var img = document.createElement('img');
+      img.src = thumbUrl || '';
+      img.alt = '';
+
+      var rmBtn = document.createElement('button');
+      rmBtn.type = 'button';
+      rmBtn.className = 'laico-remove-thumb';
+      rmBtn.setAttribute('aria-label', 'حذف');
+      rmBtn.textContent = '×';
+
+      div.appendChild(img);
+      div.appendChild(rmBtn);
+      sketchBox.appendChild(div);
+      return true;
+    }
+
     if (sketchBox) {
       sketchBox.addEventListener('click', function (e) {
         var rm = e.target.closest('.laico-remove-thumb');
@@ -408,36 +440,96 @@
           selection.each(function (attachment) {
             var data = attachment.toJSON();
             if (!data || !data.id) return;
-            if (sketchBox.querySelector('.laico-gallery-thumb[data-id="' + data.id + '"]')) {
-              return;
-            }
             var thumbUrl =
               (data.sizes && data.sizes.thumbnail && data.sizes.thumbnail.url) ||
+              (data.sizes && data.sizes.medium && data.sizes.medium.url) ||
               data.url;
-
-            var div = document.createElement('div');
-            div.className = 'laico-gallery-thumb';
-            div.setAttribute('data-id', String(data.id));
-
-            var img = document.createElement('img');
-            img.src = thumbUrl;
-            img.alt = '';
-
-            var rmBtn = document.createElement('button');
-            rmBtn.type = 'button';
-            rmBtn.className = 'laico-remove-thumb';
-            rmBtn.setAttribute('aria-label', 'حذف');
-            rmBtn.textContent = '×';
-
-            div.appendChild(img);
-            div.appendChild(rmBtn);
-            sketchBox.appendChild(div);
+            appendSketchThumb(data.id, thumbUrl, data.title);
           });
 
           syncSketchIdsFromDom();
         });
 
         frame.open();
+      });
+    }
+
+    // 7. Ready-made sketch sets bundled with the theme (`#laico-add-sketch-set`): the set is copied into the
+    //    Media Library once (admin-ajax) and its sheets are appended to the sketch list; saving the project stores them.
+    var setBtn = document.getElementById('laico-add-sketch-set');
+    var setSelect = document.getElementById('laico_sketch_set');
+    var setStatus = document.getElementById('laico-sketch-set-status');
+
+    function setSketchSetStatus(message, isError) {
+      if (!setStatus) return;
+      setStatus.textContent = message || '';
+      setStatus.classList.toggle('is-error', !!isError);
+    }
+
+    if (setBtn && setSelect && sketchBox && sketchIdsInput) {
+      setBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (setBtn.disabled) return;
+
+        var slug = setSelect.value;
+        if (!slug) {
+          setSketchSetStatus('ابتدا یک مجموعه را انتخاب کنید.', true);
+          return;
+        }
+        if (!window.fetch || !window.URLSearchParams) {
+          setSketchSetStatus('این مرورگر پشتیبانی نمی‌شود؛ اسکیس‌ها را از کتابخانهٔ رسانه انتخاب کنید.', true);
+          return;
+        }
+
+        var body = new URLSearchParams();
+        body.append('action', setBtn.getAttribute('data-action') || '');
+        body.append('nonce', setBtn.getAttribute('data-nonce') || '');
+        body.append('post_id', setBtn.getAttribute('data-post') || '');
+        body.append('set', slug);
+
+        setBtn.disabled = true;
+        setSketchSetStatus('در حال افزودن اسکیس‌ها به کتابخانهٔ رسانه…', false);
+
+        window
+          .fetch(setBtn.getAttribute('data-ajax-url'), { method: 'POST', credentials: 'same-origin', body: body })
+          .then(function (response) {
+            return response.text();
+          })
+          .then(function (text) {
+            var json = null;
+            try {
+              json = JSON.parse(text);
+            } catch (err) {
+              json = null;
+            }
+
+            if (!json || !json.success || !json.data || !Array.isArray(json.data.items)) {
+              var message = json && json.data && json.data.message ? String(json.data.message) : '';
+              setSketchSetStatus(message || 'افزودن اسکیس‌ها انجام نشد. صفحه را تازه‌سازی کنید و دوباره امتحان کنید.', true);
+              return;
+            }
+
+            var added = 0;
+            json.data.items.forEach(function (item) {
+              if (item && appendSketchThumb(item.id, item.thumb, item.title)) {
+                added++;
+              }
+            });
+            syncSketchIdsFromDom();
+
+            setSketchSetStatus(
+              added > 0
+                ? added.toLocaleString('fa-IR') + ' اسکیس به فهرست اضافه شد. برای ثبت، پروژه را به‌روزرسانی کنید.'
+                : 'همهٔ اسکیس‌های این مجموعه از قبل در فهرست هستند.',
+              false
+            );
+          })
+          .catch(function () {
+            setSketchSetStatus('ارتباط با سرور برقرار نشد. دوباره امتحان کنید.', true);
+          })
+          .then(function () {
+            setBtn.disabled = false;
+          });
       });
     }
   });

@@ -19,6 +19,9 @@ final class ThemeOptions
 {
     public const OPTION_KEY = 'laico_theme_options';
 
+    /** Marks that the one-time "bilingual by default" switch of 1.5.5 has run on this site. */
+    public const BILINGUAL_FLAG = 'laico_bilingual_default_v155';
+
     /** @var array<string, mixed>|null */
     private static ?array $cache = null;
 
@@ -35,8 +38,8 @@ final class ThemeOptions
             'logo_url' => '',
             'favicon_url' => '',
             'default_language' => 'fa',
-            'enable_english' => false,
-            'enable_lang_switcher' => false,
+            'enable_english' => true,
+            'enable_lang_switcher' => true,
             'phone_primary' => '۰۹۱۲۰۸۹۸۹۳۸',
             'phone_primary_tel' => '+989120898938',
             'phone_secondary' => '',
@@ -175,6 +178,30 @@ final class ThemeOptions
 
         self::$cache = array_merge(self::defaults(), $saved);
         return self::$cache;
+    }
+
+    /**
+     * 1.5.5 — the site is bilingual (FA / EN) by default again.
+     *
+     * Settings saved by 1.4.1 – 1.5.4 contain `enable_english = false` simply because that was the default
+     * back then, so the new default alone would not bring the language switcher back. This turns the English
+     * section on once; afterwards the checkbox in Theme Settings decides and is never overridden again.
+     */
+    public static function ensureBilingualDefault(): void
+    {
+        if (get_option(self::BILINGUAL_FLAG) === '1') {
+            return;
+        }
+
+        $saved = get_option(self::OPTION_KEY, []);
+        if (is_array($saved) && array_key_exists('enable_english', $saved) && empty($saved['enable_english'])) {
+            $saved['enable_english'] = true;
+            $saved['enable_lang_switcher'] = true;
+            update_option(self::OPTION_KEY, $saved, true);
+            self::$cache = null;
+        }
+
+        update_option(self::BILINGUAL_FLAG, '1', true);
     }
 
     /**

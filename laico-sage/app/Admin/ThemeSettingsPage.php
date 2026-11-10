@@ -362,6 +362,7 @@ final class ThemeSettingsPage
                   نمایش بخش و سوییچر زبان انگلیسی (FA / EN) در سایت و فعال‌سازی فیلدهای ترجمهٔ انگلیسی
                 </label>
               </p>
+              <p class="description">سایت به‌صورت پیش‌فرض دوزبانه است (فارسی / انگلیسی). اگر این تیک را بردارید، سایت فقط فارسی نمایش داده می‌شود و سوییچر زبان از هدر حذف می‌شود؛ ترجمه‌های انگلیسی ثبت‌شده پاک نمی‌شوند.</p>
             </div>
 
             <div class="laico-meta-field laico-en-only-field" <?php echo empty($opt['enable_english']) ? 'style="display:none;"' : ''; ?>>

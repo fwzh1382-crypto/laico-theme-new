@@ -1,11 +1,11 @@
 {
   "resources/css/admin.css": {
-    "file": "assets/admin-styles-BJMGWP11.css",
+    "file": "assets/admin-styles-BlpAd8Es.css",
     "src": "resources/css/admin.css",
     "isEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/styles-CTwUWSdi.css",
+    "file": "assets/styles-DqFMy96S.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -227,13 +227,13 @@
     "src": "resources/images/services-why.webp"
   },
   "resources/js/admin.js": {
-    "file": "assets/admin-C4GnJbQk.js",
+    "file": "assets/admin-DmH8Ns5q.js",
     "name": "admin",
     "src": "resources/js/admin.js",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-COdO8R8-.js",
+    "file": "assets/app-Baoya4tX.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true

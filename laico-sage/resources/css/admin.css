@@ -226,6 +226,35 @@
   cursor: pointer;
 }
 
+/* Ready-made sketch sets bundled with the theme (project meta box) */
+.laico-sketch-set {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border: 1px dashed #c3cfdc;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.laico-sketch-set-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin: 6px 0;
+}
+
+.laico-sketch-set-row select {
+  max-width: 100%;
+}
+
+.laico-sketch-set-status {
+  color: #1e334c;
+}
+
+.laico-sketch-set-status.is-error {
+  color: #b32d2e;
+}
+
 /* Submissions Status Badges */
 .laico-status-badge {
   display: inline-block;
