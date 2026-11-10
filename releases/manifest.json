@@ -1,9 +1,9 @@
 {
   "target_theme": "laico-sage",
-  "latest_version": "1.5.3",
-  "min_version": "1.5.2",
-  "released_at": "2026-11-06T10:30:00Z",
-  "patch_url": "https://github.com/amolnovin/laico-theme/raw/main/releases/laico-patch-1.5.2-to-1.5.3.zip",
-  "full_zip_url": "https://github.com/amolnovin/laico-theme/raw/main/releases/laico-sage-v1.5.3.zip",
-  "changelog": "نسخه ۱.۵.۳:\n• رفع کامل مشکل کار نکردن اسکرول عمودی با لمس (Touch Scroll) در موبایل و تبلت با جایگزینی overflow-x: hidden تودرتو با overflow-x: clip و حذف overscroll-behavior-y: none روی body\n• حفظ کامل مخفی بودن اسکرول افقی (چپ و راست) در تمامی صفحات و حالت‌های ریسپانسیو"
+  "latest_version": "1.5.4",
+  "min_version": "1.5.3",
+  "released_at": "2026-11-10T09:21:05Z",
+  "patch_url": "https://github.com/amolnovin/laico-theme/raw/main/releases/laico-patch-1.5.3-to-1.5.4.zip",
+  "full_zip_url": "https://github.com/amolnovin/laico-theme/raw/main/releases/laico-sage-v1.5.4.zip",
+  "changelog": "نسخه ۱.۵.۴:\n• افزودن بخش «اسکیس‌های پروژه» به صفحهٔ تک‌پروژه (انتخاب اسکیس‌ها از متاباکس «گالری تصاویر، اسکیس‌ها و ویدیوی پروژه»، لایت‌باکس جداگانه و زیرنویس دوزبانه)\n• نمایش عناوین انگلیسی در نسخهٔ انگلیسی سایت (هیروی صفحهٔ اصلی، نوار متحرک و موزاییک پروژه‌ها، عنوان تب مرورگر، برگه‌های عمومی و حقوقی، صفحه‌بندی مجله)\n• ردیف جدید ارزش‌های صفحهٔ درباره ما: طراحی هوشمند، تحویل به موقع، تخصص در اجرا، کیفیت بالا\n• رفع خطای PHP در برگه‌های بدون قالب اختصاصی (page.blade.php)"
 }
