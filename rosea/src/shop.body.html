@@ -1,0 +1,93 @@
+<main id="main">
+  <section class="page-hero">
+    <div class="wrap">
+      <nav class="breadcrumb" aria-label="مسیر صفحه">
+        <a href="index.html">خانه</a><span>/</span><span>فروشگاه</span>
+      </nav>
+      <div class="page-hero__grid">
+        <div>
+          <span class="eyebrow">فروشگاه</span>
+          <h1>همهٔ محصولات وارداتی</h1>
+          <p class="lede">مراقبت پوست، آرایش، عطر، لوازم برقی، پوشاک و مکمل؛ هر کالا با تاریخ انقضا، کشور مبدأ و مدرک اصالت. فیلترها را ببندید تا سریع‌تر به قفسهٔ خودتان برسید.</p>
+        </div>
+        <div class="page-hero__aside">
+          <span class="chip">اصالت تضمینی</span>
+          <span class="chip">ارسال ۲۴ ساعته</span>
+          <span class="chip">۷ روز مرجوعی</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight" style="padding-block-start:0">
+    <div class="wrap shop-layout">
+      <aside class="filters" aria-label="فیلتر محصولات">
+        <div class="filters__head">
+          <b>فیلترها</b>
+          <button class="filters__reset" type="button" data-reset>حذف همه</button>
+        </div>
+
+        <div class="fgroup">
+          <b>دسته‌بندی</b>
+          <div data-filter-cats></div>
+        </div>
+
+        <div class="fgroup">
+          <b>برند</b>
+          <div data-filter-brands></div>
+        </div>
+
+        <div class="fgroup">
+          <b>محدودهٔ قیمت (تومان)</b>
+          <div class="range-inputs">
+            <label class="visually-hidden" for="min-price">کمترین قیمت</label>
+            <input id="min-price" data-min type="number" inputmode="numeric" placeholder="از ۱٬۰۰۰٬۰۰۰" min="0" step="100000">
+            <span aria-hidden="true">—</span>
+            <label class="visually-hidden" for="max-price">بیشترین قیمت</label>
+            <input id="max-price" data-max type="number" inputmode="numeric" placeholder="تا ۷٬۰۰۰٬۰۰۰" min="0" step="100000">
+          </div>
+        </div>
+
+        <div class="fgroup" style="gap:12px">
+          <label class="switch"><span>فقط موجود در انبار</span><input type="checkbox" data-instock checked></label>
+          <label class="switch"><span>فقط دارای مدرک گمرکی</span><input type="checkbox" data-customs checked></label>
+        </div>
+
+        <div class="fgroup">
+          <b>جست‌وجوی جهانی</b>
+          <p class="small">محصولی که اینجا نیست را در سایت‌های خارجی پیدا کنید؛ ما واردش می‌کنیم.</p>
+          <a class="btn btn--teal btn--sm" href="global-search.html">جست‌وجوی جهانی</a>
+        </div>
+      </aside>
+
+      <div>
+        <div class="shop-toolbar">
+          <span class="shop-toolbar__count"><b data-count>۰</b> محصول</span>
+          <div style="display:flex;gap:8px;align-items:center">
+            <label class="visually-hidden" for="sort">ترتیب نمایش</label>
+            <select class="select" id="sort" data-sort>
+              <option value="featured">پیشنهاد رُزآ</option>
+              <option value="new">تازه‌ترین</option>
+              <option value="cheap">ارزان‌ترین</option>
+              <option value="expensive">گران‌ترین</option>
+              <option value="off">بیشترین تخفیف</option>
+              <option value="rating">بالاترین امتیاز</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="active-filters" data-chips></div>
+        <div class="grid-products grid-products--3" data-grid aria-live="polite"></div>
+
+        <div class="load-more">
+          <button class="btn btn--ghost" type="button" data-more>نمایش محصولات بیشتر</button>
+          <span class="small" data-more-note></span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/shop.js"></script>

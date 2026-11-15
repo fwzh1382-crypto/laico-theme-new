@@ -1,0 +1,112 @@
+<main id="main">
+  <section class="gs-hero">
+    <div class="wrap">
+      <nav class="breadcrumb" aria-label="مسیر صفحه">
+        <a href="index.html">خانه</a><span>/</span><span>جست‌وجوی جهانی</span>
+      </nav>
+      <span class="eyebrow eyebrow--teal">Global search · ۸ منبع خارجی</span>
+      <h1>هر چیزی که در ایران نیست،<br>از قفسهٔ دنیا برمی‌داریم</h1>
+      <p class="lede">نام محصول را بنویسید یا لینکش را از سایت خارجی بچسبانید. قیمت تومانی، زمان تحویل و کارمزد واردات را همان‌جا می‌بینید و سفارش را ثبت می‌کنید؛ خرید، ترخیص و تحویل با ما.</p>
+
+      <form class="gs-search" data-gs-form role="search">
+        <div class="gs-search__row">
+          <span aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6"></path></svg>
+          </span>
+          <label class="visually-hidden" for="gs-q">جست‌وجو در سایت‌های خارجی</label>
+          <input id="gs-q" data-gs-q type="search" autocomplete="off" placeholder="مثلاً Vitamin C Serum، La Mer، یا لینک محصول از Sephora…">
+          <button class="btn btn--teal" type="submit">جست‌وجو</button>
+        </div>
+        <div class="gs-chips" data-source-chips role="group" aria-label="فیلتر منبع"></div>
+      </form>
+      <p class="small" style="margin-block-start:10px">نرخ تبدیل تقریبی: دلار {{USD}} · یورو {{EUR}} · پوند {{GBP}} — به‌روزرسانی {{RATE_DATE}} · کارمزد خدمات واردات {{FEE}}٪</p>
+    </div>
+  </section>
+
+  <section class="section section--tight" style="padding-block-start:clamp(20px,3vw,34px)">
+    <div class="wrap">
+      <div class="gs-layout">
+        <div>
+          <div class="shop-toolbar">
+            <span class="shop-toolbar__count"><b data-gs-count>۰</b> نتیجه در منابع خارجی</span>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+              <button class="btn btn--light btn--sm" type="button" data-gs-live>بازکردن جست‌وجو در منابع ↗</button>
+              <label class="visually-hidden" for="gs-sort">ترتیب</label>
+              <select class="select" id="gs-sort" data-gs-sort>
+                <option value="relevance">مرتبط‌ترین</option>
+                <option value="cheap">ارزان‌ترین</option>
+                <option value="rating">بالاترین امتیاز</option>
+              </select>
+            </div>
+          </div>
+          <div class="gs-status" data-gs-status style="margin-block-end:14px" hidden>
+            <span class="spinner" aria-hidden="true"></span><span>در حال جست‌وجو در منابع خارجی…</span>
+          </div>
+          <div class="gs-list" data-gs-results aria-live="polite"></div>
+          <div class="search-live" data-gs-live-row style="margin-block-start:18px"></div>
+        </div>
+
+        <aside style="display:grid;gap:16px;align-content:start">
+          <div class="paste-box">
+            <b class="h3" style="font-size:.98rem">لینک محصول خارجی را بچسبانید</b>
+            <p class="small">از آمازون، سفورا، نوتینو، آی‌هرب، کالتی‌بیوتی، فارفچ، لوک‌فنتستیک یا آلتا.</p>
+            <form data-paste-form class="paste-box__row" novalidate>
+              <label class="visually-hidden" for="paste-url">نشانی محصول</label>
+              <input id="paste-url" type="text" inputmode="url" placeholder="https://www.amazon.com/dp/…" dir="ltr">
+              <button class="btn btn--ghost btn--sm" type="submit">بررسی</button>
+            </form>
+            <div data-paste-result></div>
+          </div>
+
+          <div class="callout" style="background:var(--mint-0);border-inline-start-color:var(--teal-1)">
+            <b style="font-size:.9rem">چطور قیمت نهایی ساخته می‌شود؟</b>
+            <span style="font-size:.8rem">ارزش کالا + ارسال بین‌المللی + کارمزد خدمات ({{FEE}}٪) + بیمهٔ اختیاری. رقم نمایش‌داده‌شده تقریبی است و کارشناس تا ۲۴ ساعت آن را تأیید می‌کند.</span>
+          </div>
+
+          <div>
+            <p class="small" style="margin-block-end:8px">منابع پشتیبانی‌شده</p>
+            <div data-source-list style="display:grid;gap:6px"></div>
+          </div>
+
+          <p class="small" style="opacity:.7">نسخهٔ نمایشی: نتایج از ایندکس داخلی نمونه ({{COUNT}} کالا) خوانده می‌شود و لینک‌های «جست‌وجوی زنده» به جست‌وجوی واقعی همان سایت‌ها باز می‌شوند.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt" id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-head__text">
+          <span class="eyebrow eyebrow--teal">فرایند</span>
+          <h2 class="h2">سفارش واردات، بدون ابهام</h2>
+          <p class="lede">سه مرحله، سه تأییدیه؛ در هر مرحله ایمیل و پیامک وضعیت را می‌فرستیم.</p>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="step__n en">01</span>
+          <b>جست‌وجو یا لینک</b>
+          <p>در ایندکس جهانی جست‌وجو می‌کنید یا لینک محصول را از سایت خارجی می‌چسبانید. منبع، قیمت ارزی و زمان تقریبی تحویل همان لحظه مشخص می‌شود.</p>
+          <span class="step__meta">۸ منبع · ۴ ارز</span>
+        </div>
+        <div class="step">
+          <span class="step__n en">02</span>
+          <b>تأیید قیمت و موجودی</b>
+          <p>کارشناس زیبایی‌شناسی موجودی و اصالت فروشنده را بررسی می‌کند و قیمت نهایی تومانی را با جزئیات (کالا، ارسال، کارمزد) تأیید می‌کند.</p>
+          <span class="step__meta">حداکثر ۲۴ ساعت</span>
+        </div>
+        <div class="step">
+          <span class="step__n en">03</span>
+          <b>خرید، ترخیص، تحویل</b>
+          <p>خرید انجام می‌شود، بارنامه و فاکتور نگه داشته می‌شود و پس از ترخیص، بسته با کد رهگیری و کارت اصالت به دست شما می‌رسد.</p>
+          <span class="step__meta">۷ تا ۱۲ روز کاری</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/global-search.js"></script>

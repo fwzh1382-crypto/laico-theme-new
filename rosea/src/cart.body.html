@@ -1,0 +1,86 @@
+<main id="main">
+  <section class="page-hero">
+    <div class="wrap">
+      <nav class="breadcrumb" aria-label="مسیر صفحه">
+        <a href="index.html">خانه</a><span>/</span><span>سبد خرید</span>
+      </nav>
+      <span class="eyebrow">سبد خرید</span>
+      <h1>یک قدم تا قفسهٔ شما</h1>
+      <p class="lede">کالاهای موجود و سفارش‌های واردات در یک سبد جمع می‌شوند. هزینهٔ ارسال و کارمزد واردات پیش از پرداخت شفاف نمایش داده می‌شود.</p>
+    </div>
+  </section>
+
+  <section class="section section--tight" style="padding-block-start:clamp(14px,2vw,24px)">
+    <div class="wrap cart-layout">
+      <div>
+        <div class="cart-list" data-cart-list aria-live="polite"></div>
+        <div class="cart-empty" data-cart-empty hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="m3 8 9-4 9 4-9 4z"></path><path d="M3 8v8l9 4 9-4V8"></path><path d="M12 12v8"></path></svg>
+          <b>سبد خرید خالی است</b>
+          <span class="small">از فروشگاه انتخاب کنید یا محصول مورد نظرتان را در سایت‌های خارجی جست‌وجو کنید.</span>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-block-start:6px">
+            <a class="btn btn--rose btn--sm" href="shop.html">رفتن به فروشگاه</a>
+            <a class="btn btn--ghost btn--sm" href="global-search.html">جست‌وجوی جهانی</a>
+          </div>
+        </div>
+
+        <div class="callout" style="margin-block-start:16px">
+          <b style="font-size:.88rem">پرداخت امن و پیگیری</b>
+          <span style="font-size:.82rem">پرداخت از طریق درگاه شاپرک انجام می‌شود و کد رهگیری پس از ارسال پیامک می‌شود. سفارش‌های واردات پس از تأیید قیمت نهایی (حداکثر ۲۴ ساعت) قابل پرداخت‌اند.</span>
+        </div>
+      </div>
+
+      <aside class="summary">
+        <b class="h3">خلاصهٔ سفارش</b>
+        <div class="sum-row"><span>جمع کالاها</span><span data-sum-sub>۰ تومان</span></div>
+        <div class="sum-row"><span>هزینهٔ ارسال</span><span data-sum-ship>—</span></div>
+        <div class="sum-row" data-sum-import-row hidden><span>سفارش واردات</span><span data-sum-import>۰</span></div>
+        <div class="sum-row sum-row--total"><span>مبلغ قابل پرداخت</span><span data-sum-total>۰ تومان</span></div>
+        <p class="form-note" data-ship-note></p>
+
+        <form class="form-grid" data-checkout novalidate>
+          <div class="field">
+            <label for="co-name">نام و نام خانوادگی</label>
+            <input id="co-name" name="name" type="text" autocomplete="name" placeholder="مثلاً سارا محمدی" required>
+            <span class="field__err" data-err="name" hidden>نام را کامل بنویسید.</span>
+          </div>
+          <div class="form-grid form-grid--2">
+            <div class="field">
+              <label for="co-phone">شمارهٔ موبایل</label>
+              <input id="co-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="۰۹۱۲۳۴۵۶۷۸۹" required>
+              <span class="field__err" data-err="phone" hidden>شمارهٔ موبایل ۱۱ رقمی و با ۰۹ شروع شود.</span>
+            </div>
+            <div class="field">
+              <label for="co-city">شهر</label>
+              <input id="co-city" name="city" type="text" autocomplete="address-level2" placeholder="تهران" required>
+              <span class="field__err" data-err="city" hidden>شهر را وارد کنید.</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="co-address">نشانی</label>
+            <textarea id="co-address" name="address" autocomplete="street-address" placeholder="خیابان، کوچه، پلاک، واحد" required></textarea>
+            <span class="field__err" data-err="address" hidden>نشانی را کامل‌تر بنویسید.</span>
+          </div>
+          <label class="check" style="font-size:.8rem;align-items:flex-start">
+            <input type="checkbox" checked required style="margin-block-start:4px">
+            <span>با <a href="guide.html#terms" style="text-decoration:underline">شرایط خرید و مرجوعی</a> موافقم.</span>
+          </label>
+          <button class="btn btn--rose btn--block" type="submit">ثبت سفارش و پرداخت</button>
+          <p class="form-note">این فرم نمایشی است و اطلاعاتی به سرور ارسال نمی‌شود؛ برای اتصال درگاه، تابع <span class="en">checkout()</span> را جایگزین کنید.</p>
+        </form>
+
+        <div class="form-success" data-success hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12.5 5 5L20 6.5"></path></svg>
+          <b>سفارش ثبت شد</b>
+          <span class="small">کد پیگیری: <b class="en" data-order-code>—</b></span>
+          <span class="small">جزئیات به شمارهٔ شما پیامک می‌شود. برای سفارش‌های واردات، تأیید قیمت نهایی تا ۲۴ ساعت آینده ارسال می‌شود.</span>
+          <a class="btn btn--light btn--sm" href="shop.html">ادامهٔ خرید</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/cart.js"></script>
