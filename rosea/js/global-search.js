@@ -14,6 +14,17 @@
   if (!R) return;
   var q = R.one, esc = R.esc, fa = R.faNum;
 
+  /* کلیدواژه‌های فارسی برای جست‌وجو در ایندکس لاتین */
+  var KEYS = {
+    skincare: "سرم کرم پوست مرطوب ضدآفتاب روتین مراقبت",
+    makeup: "رژ لب آرایش رژگونه خط چشم ریمل",
+    fragrance: "عطر ادکلن ادوپرفیوم نیش",
+    devices: "اتو مو سشوار برقی دستگاه برس",
+    fashion: "شال پوشاک اکسسوری عینک کیف زیور",
+    supplements: "مکمل ویتامین کلاژن پروبیوتیک قرص"
+  };
+  R.searchKeys = KEYS;
+
   var SEARCH_ENDPOINT = ""; // مثلاً "/api/global-search"
   var state = { q: "", sources: new Set(), sort: "relevance" };
   var timer = null;
@@ -91,7 +102,9 @@
     var list = R.globalIndex.filter(function (g) {
       if (state.sources.size && !state.sources.has(g.source)) return false;
       if (!term) return true;
-      return (g.title + " " + g.brand + " " + g.cat).toLowerCase().indexOf(term) > -1;
+      var hay = (g.title + " " + g.brand + " " + g.cat + " " +
+        R.getCategory(g.cat).fa + " " + (KEYS[g.cat] || "")).toLowerCase();
+      return hay.indexOf(term) > -1;
     });
     if (state.sort === "cheap") list.sort(function (a, b) { return goodsToman(a) - goodsToman(b); });
     if (state.sort === "rating") list.sort(function (a, b) { return b.rating - a.rating; });
@@ -112,6 +125,7 @@
       '<span class="src-badge"><i style="background:' + s.tone + '"></i>' + esc(s.en) + " · " + esc(s.cc) + "</span>" +
       '<span>' + R.icon("star").replace("<svg", '<svg style="width:11px;height:11px;display:inline;vertical-align:-1px;fill:var(--rose-2);stroke:none"') + " " +
       g.rating.toFixed(1).replace(".", "٫") + " (" + fa(g.reviews) + ")</span>" +
+      '<span>' + esc(R.getCategory(g.cat).fa) + "</span>" +
       '<span>تحویل ' + esc(g.shipDays) + " روز کاری</span>" +
       "</div></div>" +
       '<div class="gs-result__side">' +

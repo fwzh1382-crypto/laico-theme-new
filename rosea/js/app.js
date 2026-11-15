@@ -397,7 +397,8 @@
       return (p.title + " " + p.brand + " " + R.getCategory(p.cat).fa + " " + p.origin).toLowerCase().indexOf(q) > -1;
     }).slice(0, 5);
     out.global = R.globalIndex.filter(function (g) {
-      return (g.title + " " + g.brand).toLowerCase().indexOf(q) > -1;
+      var keys = (R.searchKeys && R.searchKeys[g.cat]) || "";
+      return (g.title + " " + g.brand + " " + R.getCategory(g.cat).fa + " " + keys).toLowerCase().indexOf(q) > -1;
     }).slice(0, 4);
     return out;
   }
